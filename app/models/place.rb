@@ -1,5 +1,5 @@
 class Place
-
+	include ActiveModel::Model
 	attr_accessor :id, :formatted_address, :location, :address_components
 
 	def initialize(params= {})
@@ -14,7 +14,10 @@ class Place
 			end
 		end
 	end
-
+	
+	def persisted?
+	    !@id.nil?
+	end
 
 	def self.mongo_client
 		Mongoid::Clients.default
@@ -138,6 +141,24 @@ class Place
 
 end
 
+#  Place.collection.delete_many
+#       Place.load_all(File.open("./db/places.json"))
+#       #clear grid fs db
+#       Photo.mongo_client.database.fs.find.each { |p| 
+#         Photo.mongo_client.database.fs.find(:_id=>p[:_id]).delete_one
+#       }
+#       #reload db with application images
+#       (1..6).each { |n|
+#         p = Photo.new 
+#         f = File.open("./db/image#{n}.jpg",'rb')
+#         p.contents = f
+#         id = p.save
+#       }    
+# Photo.all.each { |photo| 
+#         photo.place = photo.find_nearest_place_id(100*1069.34)
+#         photo.save
+       
+#       }
 
 
 

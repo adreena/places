@@ -164,7 +164,7 @@ feature "Module #3 Relationship Tests" do
       p_list = []
       Photo.all.each { |photo| 
         if alternate then
-          photo.place = place.id
+          photo.place = place
           photo.save
           p_list.push(photo.id)
         end
@@ -210,7 +210,7 @@ feature "Module #3 Relationship Tests" do
       place_id = place.id
       p_list = []
       Photo.all.each { |photo| 
-        photo.place = place.id
+        photo.place = place
         photo.save
         p_list.push(photo.id)
       }

@@ -98,7 +98,16 @@ class Photo
 	end
 
 	def place=(value)
-		@place = value.nil? ? nil : BSON::ObjectId(value)
+		if value.nil?
+			@place = nil 
+		elsif value.is_a? BSON::ObjectId
+			@place = value
+		elsif value.is_a? String
+			@place = BSON::ObjectId(value)
+		elsif value.is_a? Place
+			@place = BSON::ObjectId(value.id)
+		
+		end
 	end
 
 	def self.find_photos_for_place(id)
