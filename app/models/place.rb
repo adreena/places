@@ -44,7 +44,9 @@ class Place
 	end
 
 	def self.find(id)
-		place = Place.collection.find(:_id=>BSON::ObjectId.from_string(id)).first
+		if !id.nil?
+		   place = Place.collection.find(:_id=>BSON::ObjectId.from_string(id)).first
+		end
 		if !place.nil?
 			return Place.new(place)
 		end
@@ -128,6 +130,11 @@ class Place
 						  :$maxDistance=>max_meter}} ))
 	end
 
+	def photos(offset=0, limit=nil)
+		photos=Photo.find_photos_for_place(@id).skip(offset)
+		photos = photos.limit(limit) if !limit.nil?
+		return photos.find.map {|doc| Photo.new(doc) }
+	end
 
 end
 
